@@ -246,11 +246,11 @@ export class Join {
   }
 
   // Create join paths from tokensIn all the way to the root node.
-  static getJoinPaths = (
+  static getJoinPaths = function (
     orderedNodes: Node[],
     tokensIn: string[],
     amountsIn: string[]
-  ): Node[][] => {
+  ): Node[][] {
     const joinPaths: Node[][] = [];
 
     // Filter all nodes that contain a token in the tokensIn array
@@ -323,7 +323,7 @@ export class Join {
 
     // After creating all join paths, update the index of each input node to be the amount in for that node
     // All other node indexes will be used as a reference to store the amounts out for that node
-    this.updateInputAmounts(joinPaths, tokensIn, amountsIn);
+    Join.updateInputAmounts(joinPaths, tokensIn, amountsIn);
 
     return joinPaths;
   };
@@ -361,11 +361,11 @@ export class Join {
     const leafJoinPath = joinPaths.find((joinPath) => joinPath[0].isLeaf);
     if (leafJoinPath) {
       // Update input proportions so inputs are shared correctly between leaf nodes with same tokenIn
-      const totalProportions = this.updateTotalProportions(leafJoinPath);
+      const totalProportions = Join.updateTotalProportions(leafJoinPath);
       // Update input nodes to have correct input amount
       leafJoinPath.forEach((node) => {
         if (node.joinAction === 'input')
-          node = this.updateNodeAmount(
+          node = Join.updateNodeAmount(
             node,
             tokensIn,
             amountsIn,
@@ -451,12 +451,12 @@ export class Join {
         // Calculate bptZeroPriceImpact for leaf inputs
         const leafNodes = joinPath.filter((node) => node.isLeaf);
         leafNodes.forEach((leafNode) => {
-          const bptOut = this.bptOutZeroPiForInputNode(leafNode);
+          const bptOut = Join.bptOutZeroPiForInputNode(leafNode);
           totalBptZeroPi = totalBptZeroPi.add(bptOut);
         });
       } else {
         // Calculate bptZeroPriceImpact for non-leaf inputs
-        const bptOut = this.bptOutZeroPiForInputNode(joinPath[0]);
+        const bptOut = Join.bptOutZeroPiForInputNode(joinPath[0]);
         totalBptZeroPi = totalBptZeroPi.add(bptOut);
       }
     });

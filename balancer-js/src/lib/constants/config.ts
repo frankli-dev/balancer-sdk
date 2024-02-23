@@ -394,6 +394,34 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     poolsToIgnore: [],
     sorConnectingTokens: [],
   },
+  [Network.BLAST_SEPOLIA]: {
+    chainId: Network.BLAST_SEPOLIA, //168587773
+    addresses: {
+      contracts: {
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0x9805dcfD25e6De36bad8fe9D3Fe2c9b44B764102',
+        ...addressesByNetwork[Network.SEPOLIA].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.SEPOLIA].contracts.bal,
+        wrappedNativeAsset: addressesByNetwork[Network.SEPOLIA].contracts.weth,
+        ...addressesByNetwork[Network.SEPOLIA].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.studio.thegraph.com/query/24660/balancer-sepolia-v2/version/latest',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'eth',
+        platformId: 'ethereum',
+      },
+    },
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [],
+  },
   [Network.ZKEVM]: {
     chainId: Network.ZKEVM, //1101
     addresses: {
